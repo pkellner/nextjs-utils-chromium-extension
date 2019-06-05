@@ -1,0 +1,32 @@
+{
+  "description": "..... NextJS Utils Extension .......",
+  "manifest_version": 2,
+  "name": "NextJS Utilities Extension",
+  "version": "1.0",
+  "homepage_url": "https://github.com/",
+  "icons": {
+    "32": "icons/icon-N-32x32.png"
+  },
+  "permissions": ["activeTab", "storage","contextMenus"],
+  "background": {
+    "scripts": ["background.js","lib/jquery.min.js","nextutils.js"]
+  },
+  "content_scriptsxxx": [
+    {
+      "matches": ["http://localhost:3000/*"],
+      "js": ["undead.js"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matchesxxxx": ["http://localhost:3000/*"],
+      "matches": ["http://*/*","https://*/*"],
+      "js": ["lib/jquery.min.js","content_scripts/nextjsonload.js","content_scripts/undead.js"],
+      "css": ["BodyEnhance.css"]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "icons/icon-N-32x32.png"
+  },
+  "web_accessible_resources": ["stars.jpeg"]
+}

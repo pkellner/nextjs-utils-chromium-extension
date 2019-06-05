@@ -1,0 +1,183 @@
+body {
+  opacity: 1;
+  transition: 0.5s opacity;
+}
+
+body.fade {
+  opacity: 0.01;
+  transition: none;
+}
+
+
+body.imagecover {
+  position: relative;
+}
+
+/*body.imagecover::before {*/
+/*  content: "";*/
+/*  background-image: url("stars.jpeg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+
+
+
+/*body.imagecoverOpacity10::before {*/
+/*  opacity: 0.1;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity20::before {*/
+/*  opacity: 0.2;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity30::before {*/
+/*  opacity: 0.3;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity40::before {*/
+/*  opacity: 0.4;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity50::before {*/
+/*  opacity: 0.5;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity60::before {*/
+/*  opacity: 0.6;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity70::before {*/
+/*  opacity: 0.7;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity80::before {*/
+/*  opacity: 0.8;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity90::before {*/
+/*  opacity: 0.9;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+/*body.imagecoverOpacity100::before {*/
+/*  opacity: 1.0 ;*/
+/*  content: "";*/
+/*  background-image: url("https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/jsc2017e067117.jpg");*/
+/*  background-size: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  z-index: 9999;*/
+/*  display: inline;*/
+/*}*/
+
+
