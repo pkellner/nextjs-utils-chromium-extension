@@ -24,8 +24,8 @@ const friendlySizeBytes = bytes => {
     return `${bytes}b`;
   } else if (bytes < 1000000) {
     return `${(bytes / 1000).toFixed(0)}K`;
-  } else if (bytes < 100000000) {
-    return `${(bytes / 1000).toFixed(1)}M`;
+  } else if (bytes < 10000000) {
+    return `${(bytes / 1000000).toFixed(1)}M`;
   } else if (bytes < 1000000000) {
     return `${(bytes / 1000000).toFixed(0)}M`;
   } else {
