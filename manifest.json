@@ -9,17 +9,10 @@
   },
   "permissions": ["activeTab", "storage","contextMenus"],
   "background": {
-    "scripts": ["background.js","lib/jquery.min.js","nextutils.js"]
+    "scripts": ["background.js","lib/jquery.min.js","nextutils.js","popup.js"]
   },
-  "content_scriptsxxx": [
-    {
-      "matches": ["http://localhost:3000/*"],
-      "js": ["undead.js"]
-    }
-  ],
   "content_scripts": [
     {
-      "matchesxxxx": ["http://localhost:3000/*"],
       "matches": ["http://*/*","https://*/*"],
       "js": ["lib/jquery.min.js","content_scripts/nextjsonload.js","content_scripts/undead.js"],
       "css": ["BodyEnhance.css"]
@@ -27,6 +20,7 @@
   ],
   "browser_action": {
     "default_icon": "icons/icon-N-32x32.png"
+//    "default_popup": "popup.html"
   },
   "web_accessible_resources": ["stars.jpeg"]
 }

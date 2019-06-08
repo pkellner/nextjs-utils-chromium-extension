@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  debugger;
+
   // console.log(
   //   sender.tab
   //     ? "from a content script:" + sender.tab.url
@@ -11,18 +11,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   // console.log(JSON.stringify(window.__NEXT_DATA__).length);
   // console.log(JSON.stringify(window.__NEXT_DATA__));
 
+  let nextJsText = 'null';
   const nextJsElement = document.getElementById("__NEXT_DATA__");
-  const nextJsText = nextJsElement.innerText;
+  if (nextJsElement) {
+    if (nextJsElement.innerText) {
+      nextJsText = nextJsElement.innerText;
+    }
+  }
   //
   //
   // console.log(`length: ${JSON.stringify($('#__NEXT_DATA__').innerText).length}`);
-
-  //if (request.url) {
-  //console.log(`nextutils.js:${request.url}`);
   sendResponse({ nextJsText });
-  //}
-  // if (request.greeting == "hello")
-  //   sendResponse({farewell: "goodbye"});
 });
 
 /*$(document).ready(function() {
