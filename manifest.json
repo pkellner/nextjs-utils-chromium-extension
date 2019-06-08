@@ -7,9 +7,9 @@
   "icons": {
     "32": "icons/icon-N-32x32.png"
   },
-  "permissions": ["activeTab", "storage","contextMenus"],
+  "permissions": ["activeTab","contextMenus"],
   "background": {
-    "scripts": ["background.js","lib/jquery.min.js","nextutils.js","popup.js"]
+    "scripts": ["background.js","lib/jquery.min.js","nextutils.js"]
   },
   "content_scripts": [
     {
@@ -20,7 +20,6 @@
   ],
   "browser_action": {
     "default_icon": "icons/icon-N-32x32.png"
-//    "default_popup": "popup.html"
   },
   "web_accessible_resources": ["stars.jpeg"]
 }

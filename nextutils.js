@@ -1,16 +1,4 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-
-  // console.log(
-  //   sender.tab
-  //     ? "from a content script:" + sender.tab.url
-  //     : "from the extension"
-  // );
-
-  // const z = JSON.stringify(window.__NEXT_DATA__);
-  // console.log("JSON.stringify(window.__NEXT_DATA__).length:");
-  // console.log(JSON.stringify(window.__NEXT_DATA__).length);
-  // console.log(JSON.stringify(window.__NEXT_DATA__));
-
   let nextJsText = 'null';
   const nextJsElement = document.getElementById("__NEXT_DATA__");
   if (nextJsElement) {
@@ -18,11 +6,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       nextJsText = nextJsElement.innerText;
     }
   }
-  //
-  //
-  // console.log(`length: ${JSON.stringify($('#__NEXT_DATA__').innerText).length}`);
   sendResponse({ nextJsText });
 });
+
+// console.log(
+//   sender.tab
+//     ? "from a content script:" + sender.tab.url
+//     : "from the extension"
+// );
+
+// const z = JSON.stringify(window.__NEXT_DATA__);
+// console.log("JSON.stringify(window.__NEXT_DATA__).length:");
+// console.log(JSON.stringify(window.__NEXT_DATA__).length);
+// console.log(JSON.stringify(window.__NEXT_DATA__));
+
 
 /*$(document).ready(function() {
   console.log("ready from nextjsmessagehandler!");
