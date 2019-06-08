@@ -17,24 +17,19 @@ const friendlySizeBytes = bytes => {
   if (!bytes) {
     return '---';
   }
-
   if (bytes == 0) {
     return "0.0 B";
-  } else if (bytes < 1000) {
+  } else if (bytes < 1000) {  // returns 7b
     return `${bytes}b`;
-  } else if (bytes < 1000000) {
+  } else if (bytes < 1000000) { // returns 70K
     return `${(bytes / 1000).toFixed(0)}K`;
-  } else if (bytes < 10000000) {
+  } else if (bytes < 10000000) { // returns 2.7M
     return `${(bytes / 1000000).toFixed(1)}M`;
-  } else if (bytes < 1000000000) {
+  } else if (bytes < 1000000000) {  // returns 27M
     return `${(bytes / 1000000).toFixed(0)}M`;
-  } else {
+  } else { // returns >1G
     return ">1G";
   }
-  // var e = Math.floor(Math.log(bytes) / Math.log(1024));
-  // const result =
-  //   (bytes / Math.pow(1024, e)).toFixed(1) + " " + " KMGTP".charAt(e) + "B";
-  // return result;
 };
 
 chrome.runtime.onMessage.addListener(function(message, sender) {
