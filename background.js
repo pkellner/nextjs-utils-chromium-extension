@@ -1,27 +1,3 @@
-const friendlySizeBytes = bytes => {
-  if (!bytes) {
-    return "---";
-  }
-  if (bytes == 0) {
-    return "0.0 B";
-  } else if (bytes < 1000) {
-    // returns 7b
-    return `${bytes}b`;
-  } else if (bytes < 1000000) {
-    // returns 70K
-    return `${(bytes / 1000).toFixed(0)}K`;
-  } else if (bytes < 10000000) {
-    // returns 2.7M
-    return `${(bytes / 1000000).toFixed(1)}M`;
-  } else if (bytes < 1000000000) {
-    // returns 27M
-    return `${(bytes / 1000000).toFixed(0)}M`;
-  } else {
-    // returns >1G
-    return ">1G";
-  }
-};
-
 chrome.runtime.onMessage.addListener(function(message, sender) {
   if (message.nextJs === true) {
     chrome.browserAction.setIcon({
@@ -30,6 +6,7 @@ chrome.runtime.onMessage.addListener(function(message, sender) {
   }
 });
 
+// clicking toolbar icon
 chrome.browserAction.onClicked.addListener(() => {
   chrome.tabs.executeScript({ file: "nextutils.js" }, function() {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -39,17 +16,28 @@ chrome.browserAction.onClicked.addListener(() => {
       } else {
         tabId = activeTabId;
       }
-
       chrome.tabs.sendMessage(tabId, { test: "abcd" }, function(response) {
         const nextData = response.nextJsText;
+        const badgeText =
+          nextData.length === 4
+            ? "n/a"
+            : friendlySizeBytes(nextData.length).toString();
         chrome.browserAction.setBadgeText({
-          text: friendlySizeBytes(nextData.length).toString()
+          text: badgeText,
+          tabId: tabId
         });
         chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
       });
     });
   });
 });
+
+// chrome.tabs.onActivated.addListener(function(activeInfo) {
+//   console.log(activeInfo.tabId);
+//   chrome.browserAction.setBadgeText({
+//     text: ''
+//   });
+// });
 
 // bug fix for dec tools problem below
 // https://stackoverflow.com/questions/28786723/why-doesnt-chrome-tabs-query-return-the-tabs-url-when-called-using-requirejs
@@ -76,6 +64,31 @@ function getActiveTab(callback) {
     }
   });
 }
+
+const friendlySizeBytes = bytes => {
+  if (!bytes) {
+    return "---";
+  }
+  if (bytes == 0) {
+    return "0.0 B";
+  } else if (bytes < 1000) {
+    // returns 7b
+    return `${bytes}b`;
+  } else if (bytes < 1000000) {
+    // returns 70K
+    return `${(bytes / 1000).toFixed(0)}K`;
+  } else if (bytes < 10000000) {
+    // returns 2.7M
+    return `${(bytes / 1000000).toFixed(1)}M`;
+  } else if (bytes < 1000000000) {
+    // returns 27M
+    return `${(bytes / 1000000).toFixed(0)}M`;
+  } else {
+    // returns >1G
+    return ">1G";
+  }
+};
+
 // bug fix for dec tools problem above
 
 // for debugging purposes, this set the local storage when the
