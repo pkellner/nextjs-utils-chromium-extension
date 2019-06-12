@@ -7,17 +7,23 @@
   "icons": {
     "32": "icons/icon-N-32x32.png"
   },
-  "permissions": ["activeTab","contextMenus"],
+  "permissions": ["activeTab", "contextMenus"],
   "background": {
-    "scripts": ["background.js","lib/jquery.min.js","nextutils.js"]
+    "scripts": ["background.js", "lib/jquery.min.js", "nextutils.js"]
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*","https://*/*"],
-      "js": ["lib/jquery.min.js","content_scripts/nextjsonload.js"],
+      "matches": ["http://*/*", "https://*/*"],
+      "run_at": "document_idle",
+      "js": [
+        "lib/jquery.min.js",
+        "content_scripts/nextjsonload.js",
+        "content_scripts/content-script.js"
+      ],
       "css": ["BodyEnhance.css"]
     }
   ],
+  "web_accessible_resources": ["*"],
   "browser_action": {
     "default_icon": "icons/icon-N-32x32.png"
   },
