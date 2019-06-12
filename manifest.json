@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*","https://*/*"],
-      "js": ["lib/jquery.min.js","content_scripts/nextjsonload.js","content_scripts/undead.js"],
+      "js": ["lib/jquery.min.js","content_scripts/nextjsonload.js"],
       "css": ["BodyEnhance.css"]
     }
   ],
