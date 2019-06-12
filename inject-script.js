@@ -1,14 +1,16 @@
 {
   // Use a block statement to prevent modifying global scope
+  // let version = -1;
+  // if ($ && $.fn && $.fn.jquery) {
+  //   version = $.fn.jquery;
+  // }
+  var version = -99;
 
-    debugger;
-  console.log("size:" + JSON.stringify(__NEXT_DATA__).length);
+  const length = __NEXT_DATA__ ? JSON.stringify(__NEXT_DATA__).length : 0;
 
-  let version = -1;
-  if ($ && $.fn && $.fn.jquery) {
-    version = $.fn.jquery;
-  }
-
-  const event = new CustomEvent("jquery-version", { detail: version });
+  const event = new CustomEvent("jquery-version", {
+    detail: version + " length:" + length,
+    nextdata: __NEXT_DATA__ ? __NEXT_DATA__ : "{}"
+  });
   document.dispatchEvent(event);
 }

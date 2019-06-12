@@ -27,5 +27,5 @@
   "browser_action": {
     "default_icon": "icons/icon-N-32x32.png"
   },
-  "web_accessible_resources": ["stars.jpeg"]
+  "web_accessible_resources": ["stars.jpeg","inject-script.js"]
 }
