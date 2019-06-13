@@ -7,29 +7,56 @@ chrome.runtime.onMessage.addListener(function(message, sender) {
 });
 
 // clicking toolbar icon
-chrome.browserAction.onClicked.addListener(() => {
-  chrome.tabs.executeScript({ file: "nextjs1.js" }, function() {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      let tabId;
-      if (tabs && tabs.length > 0) {
-        tabId = tabs[0].id;
-      } else {
-        tabId = activeTabId;
-      }
-      chrome.tabs.sendMessage(tabId, { test: "abcd" }, function(response) {
-        const nextData = response.nextJsText;
-        const badgeText =
-          nextData.length === 4
-            ? "n/a"
-            : friendlySizeBytes(nextData.length).toString();
-        chrome.browserAction.setBadgeText({
-          text: badgeText,
-          tabId: tabId
-        });
-        chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
-      });
+chrome.browserAction.onClicked.addListener(tab => {
+  chrome.browserAction.setTitle({ title: "Hi " + tab.id });
+
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    console.log(
+      `background.js:tabs[0].id:${tabs[0].id} about to send greeting hello`
+    );
+    chrome.tabs.sendMessage(tabs[0].id, { greeting: "hello" }, function(
+      response
+    ) {
+      chrome.browserAction.setTitle({ title: response.farewell });
+      console.log(response.farewell);
     });
   });
+
+  // chrome.tabs.sendMessage(tab.id, { test: "abcd" }, function(response) {
+  //   const nextData = response.nextJsText;
+  //   const badgeText =
+  //     nextData.length === 4
+  //       ? "n/a"
+  //       : friendlySizeBytes(nextData.length).toString();
+  //   chrome.browserAction.setBadgeText({
+  //     text: badgeText,
+  //     tabId: tabId
+  //   });
+  //   chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
+  // });
+
+  // chrome.tabs.executeScript({ file: "nextjs1.js" }, function() {
+  //   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+  //     let tabId;
+  //     if (tabs && tabs.length > 0) {
+  //       tabId = tabs[0].id;
+  //     } else {
+  //       tabId = activeTabId;
+  //     }
+  //     chrome.tabs.sendMessage(tabId, { test: "abcd" }, function(response) {
+  //       const nextData = response.nextJsText;
+  //       const badgeText =
+  //         nextData.length === 4
+  //           ? "n/a"
+  //           : friendlySizeBytes(nextData.length).toString();
+  //       chrome.browserAction.setBadgeText({
+  //         text: badgeText,
+  //         tabId: tabId
+  //       });
+  //       chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
+  //     });
+  //   });
+  // });
 });
 
 // chrome.tabs.onActivated.addListener(function(activeInfo) {

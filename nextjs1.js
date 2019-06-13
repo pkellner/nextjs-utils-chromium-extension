@@ -1,8 +1,17 @@
 console.log("content_scripts...content-script.js");
 
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   const nextJsText = '9876653';
+//   sendResponse({ nextJsText });
+// });
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  const nextJsText = '9876653';
-  sendResponse({ nextJsText });
+  console.log(
+    sender.tab
+      ? "from a content script:" + sender.tab.url
+      : "from the extension"
+  );
+  if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
 });
 
 document.addEventListener("jquery-version", onVersionRecieved, { once: true });
@@ -21,10 +30,6 @@ versionScript.onload = function autoUnload() {
 };
 document.body.appendChild(versionScript);
 
-
-
-
-
 // there are two types of nextjs data
 // https://www.headspace.com/
 //   <script>__NEXT_DATA__ = {"props":{"store":{"reducerManager":{"reduce ... }</script>
@@ -32,7 +37,6 @@ document.body.appendChild(versionScript);
 // https://www.intercom.com/customer-engagement https://www.moebel.de/   https://www.winkt.io/ https://garitma.com/ https://www.intercom.com/customer-engagement
 //    <script id="__NEXT_DATA__" type="application/json">{"dataManager":"[]","props":{"pagePr....}</script>
 //  https://groups.google.com/a/chromium.org/forum/#!topic/chromium-extensions/5fs37bqPYX0
-
 
 // const nextJsElement = document.getElementById("__NEXT_DATA__");
 //
