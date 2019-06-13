@@ -1,15 +1,13 @@
-chrome.runtime.onMessage.addListener(function(message, sender) {
-  if (message.nextJs === true) {
-    chrome.browserAction.setIcon({
-      path: "icons/icon-N-32x32.png"
-    });
-  }
-});
+// chrome.runtime.onMessage.addListener(function(message, sender) {
+// //   if (message.nextJs === true) {
+// //     chrome.browserAction.setIcon({
+// //       path: "icons/icon-N-32x32.png"
+// //     });
+// //   }
+// // });
 
-// clicking toolbar icon
 chrome.browserAction.onClicked.addListener(tab => {
   chrome.browserAction.setTitle({ title: "Hi " + tab.id });
-
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log(
       `background.js:tabs[0].id:${tabs[0].id} about to send greeting hello`
@@ -21,48 +19,39 @@ chrome.browserAction.onClicked.addListener(tab => {
       console.log(response.farewell);
     });
   });
-
-  // chrome.tabs.sendMessage(tab.id, { test: "abcd" }, function(response) {
-  //   const nextData = response.nextJsText;
-  //   const badgeText =
-  //     nextData.length === 4
-  //       ? "n/a"
-  //       : friendlySizeBytes(nextData.length).toString();
-  //   chrome.browserAction.setBadgeText({
-  //     text: badgeText,
-  //     tabId: tabId
-  //   });
-  //   chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
-  // });
-
-  // chrome.tabs.executeScript({ file: "nextjs1.js" }, function() {
-  //   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-  //     let tabId;
-  //     if (tabs && tabs.length > 0) {
-  //       tabId = tabs[0].id;
-  //     } else {
-  //       tabId = activeTabId;
-  //     }
-  //     chrome.tabs.sendMessage(tabId, { test: "abcd" }, function(response) {
-  //       const nextData = response.nextJsText;
-  //       const badgeText =
-  //         nextData.length === 4
-  //           ? "n/a"
-  //           : friendlySizeBytes(nextData.length).toString();
-  //       chrome.browserAction.setBadgeText({
-  //         text: badgeText,
-  //         tabId: tabId
-  //       });
-  //       chrome.browserAction.setTitle({ title: nextData.length + " bytes" });
-  //     });
-  //   });
-  // });
 });
 
-// chrome.tabs.onActivated.addListener(function(activeInfo) {
-//   console.log(activeInfo.tabId);
-//   chrome.browserAction.setBadgeText({
-//     text: ''
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(`chrome.runtime.onMessage listener`);
+  console.log(
+    sender.tab
+      ? "from a content script:" + sender.tab.url
+      : "from the extension"
+  );
+
+  chrome.browserAction.setTitle({
+    title: request.greeting,
+    tabId: sender.tab.id
+  });
+
+  // request has the info, just not as hello when being sent from inject-scrit adn content-script
+  //if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
+});
+
+// clicking toolbar icon
+// chrome.browserAction.onClicked.addListener(tab => {
+//   chrome.browserAction.setTitle({ title: "Hi " + tab.id });
+//
+//   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+//     console.log(
+//       `background.js:tabs[0].id:${tabs[0].id} about to send greeting hello`
+//     );
+//     chrome.tabs.sendMessage(tabs[0].id, { greeting: "hello" }, function(
+//       response
+//     ) {
+//       chrome.browserAction.setTitle({ title: response.farewell });
+//       console.log(response.farewell);
+//     });
 //   });
 // });
 
@@ -115,20 +104,3 @@ const friendlySizeBytes = bytes => {
     return ">1G";
   }
 };
-
-// bug fix for dec tools problem above
-
-// for debugging purposes, this set the local storage when the
-//  extension loads up. this will come from options later.
-// if (window.localStorage.getItem("pict") === null) {
-//   console.log("setting pict");
-//   console.log("setting pict");
-//   window.localStorage.setItem("pict", "http://localhost:8000/3.jpg");
-// }
-
-// function getNextDataFromLocalStorage() {
-//   var podData;
-//   var localStorageKey = 'NextJSData'; // constants.NASAPOD_KEY;
-//   var data = window.localStorage.getItem(localStorageKey);
-//   return data;
-// }

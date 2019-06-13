@@ -1,34 +1,92 @@
 console.log("content_scripts...content-script.js");
 
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//   const nextJsText = '9876653';
-//   sendResponse({ nextJsText });
-// });
-
+// listens for button click from toolbar in background.js
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(
     sender.tab
       ? "from a content script:" + sender.tab.url
       : "from the extension"
   );
-  if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
+
+  // if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
+  document.addEventListener("jquery-version", onVersionRecieved, {
+    once: true
+  });
+
+  function onVersionRecieved(event) {
+    if (event.detail) {
+      //alert(`content-scriptx: Return From inject-script ${event.detail}`);
+      console.log(`content-scriptx: Return From inject-script ${event.detail}`);
+    } else {
+      //alert(`content-scriptx: Return From inject-script  no event.detail`);
+      console.log(
+        `content-scriptx: Return From inject-script  no event.detail`
+      );
+    }
+
+    if (request.greeting == "hello")
+      sendResponse({ farewell: "goodbye " + event.detail });
+  }
+
+  const versionScript = document.createElement("script");
+  versionScript.src = chrome.runtime.getURL("inject-script.js");
+  versionScript.onload = function autoUnload() {
+    this.remove;
+  };
+  document.body.appendChild(versionScript);
 });
 
-document.addEventListener("jquery-version", onVersionRecieved, { once: true });
-function onVersionRecieved(event) {
-  if (event.detail) {
-    alert(`Page is using jQuery ${event.detail}`);
-  } else {
-    alert(`jQuery not detected`);
-  }
-}
+// https://developer.chrome.com/extensions/content_scripts#host-page-communication
+window.addEventListener(
+  "message",
+  function(event) {
+    // We only accept messages from ourselves
+    if (event.source != window) return;
 
-const versionScript = document.createElement("script");
-versionScript.src = chrome.runtime.getURL("inject-script.js");
-versionScript.onload = function autoUnload() {
-  this.remove;
-};
-document.body.appendChild(versionScript);
+    if (event.data.type && event.data.type == "FROM_PAGE") {
+      console.log("Content script received: " + event.data.text);
+      debugger;
+      chrome.runtime.sendMessage(
+        { greeting: `test from content-script:${event.data.text}` },
+        function(response) {
+          debugger;
+          console.log(response.farewell);
+        }
+      );
+    }
+  },
+  false
+);
+
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   const nextJsText = '9876653';
+//   sendResponse({ nextJsText });
+// });
+//
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//   console.log(
+//     sender.tab
+//       ? "from a content script:" + sender.tab.url
+//       : "from the extension"
+//   );
+//   if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
+// });
+//
+// document.addEventListener("jquery-version", onVersionRecieved, { once: true });
+// function onVersionRecieved(event) {
+//   if (event.detail) {
+//     alert(`Page is using jQuery ${event.detail}`);
+//   } else {
+//     alert(`jQuery not detected`);
+//   }
+// }
+//
+// const versionScript = document.createElement("script");
+// versionScript.src = chrome.runtime.getURL("inject-script.js");
+// versionScript.onload = function autoUnload() {
+//   this.remove;
+// };
+// document.body.appendChild(versionScript);
 
 // there are two types of nextjs data
 // https://www.headspace.com/

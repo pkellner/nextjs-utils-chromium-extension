@@ -1,16 +1,13 @@
 {
   // Use a block statement to prevent modifying global scope
-  // let version = -1;
-  // if ($ && $.fn && $.fn.jquery) {
-  //   version = $.fn.jquery;
-  // }
-  //var version = -99;
+  let version = 987654;
 
-  const length = 23456; // __NEXT_DATA__ ? JSON.stringify(__NEXT_DATA__).length : 0;
-
-  const event = new CustomEvent("jquery-version", {
-    detail: " length:" + length
-    //nextdata: __NEXT_DATA__ ? __NEXT_DATA__ : "{}"
-  });
+  const event = new CustomEvent("jquery-version", { detail: version });
   document.dispatchEvent(event);
+
+  debugger;
+  window.postMessage(
+    { type: "FROM_PAGE", text: "Hi!" + version },
+    "*"
+  );
 }
