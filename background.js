@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(function(message, sender) {
 
 // clicking toolbar icon
 chrome.browserAction.onClicked.addListener(() => {
-  chrome.tabs.executeScript({ file: "nextutils.js" }, function() {
+  chrome.tabs.executeScript({ file: "nextjs1.js" }, function() {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       let tabId;
       if (tabs && tabs.length > 0) {

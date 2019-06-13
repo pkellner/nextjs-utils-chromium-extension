@@ -4,6 +4,7 @@
   // if ($ && $.fn && $.fn.jquery) {
   //   version = $.fn.jquery;
   // }
+  debugger;
   var version = -99;
 
   const length = __NEXT_DATA__ ? JSON.stringify(__NEXT_DATA__).length : 0;
