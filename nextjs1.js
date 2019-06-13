@@ -45,11 +45,9 @@ window.addEventListener(
 
     if (event.data.type && event.data.type == "FROM_PAGE") {
       console.log("Content script received: " + event.data.text);
-      debugger;
       chrome.runtime.sendMessage(
         { greeting: `test from content-script:${event.data.text}` },
         function(response) {
-          debugger;
           console.log(response.farewell);
         }
       );
