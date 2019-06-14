@@ -1,7 +1,3 @@
-let nextDataFullValue = {
-  testData: "abcdefg"
-}; // global, kind of ugly, but works.
-
 addChangeContextMenuItems();
 
 chrome.browserAction.onClicked.addListener(tab => {
@@ -64,45 +60,20 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   if (request.messageType === "SHOW_DATA") {
     // always set badge Text first
     setBadgeTextFunction();
-    window.localStorage.setItem('nextdata',request.nextJsData);
+    window.localStorage.setItem("nextdata", request.nextJsData);
     chrome.tabs.create(
       { url: chrome.extension.getURL("viewNextData.html") },
       function(tab) {
-
         chrome.tabs.getSelected(null, function(tab) {
-          chrome.tabs.sendRequest(tab.id, {greeting: "hello"}, function(response) {
+          chrome.tabs.sendRequest(tab.id, { greeting: "hello" }, function(
+            response
+          ) {
             console.log(response.farewell);
           });
         });
       }
     );
   }
-
-  // const friendlySizeBytesFullString = (bytes, si) => {
-  //   var thresh = si ? 1000 : 1024;
-  //   if (Math.abs(bytes) < thresh) {
-  //     return bytes + " B";
-  //   }
-  //   var units = si
-  //     ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-  //     : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
-  //   var u = -1;
-  //   do {
-  //     bytes /= thresh;
-  //     ++u;
-  //   } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-  //   return bytes.toFixed(1) + " " + units[u];
-  // };
-
-  // const titleText =
-  //   request && request.nextJsDataLength && request.nextJsDataLength > 10
-  //     ? friendlySizeBytesFullString(request.nextJsDataLength)
-  //     : "__NEXT_DATA__ Not Found so not NextJS site likely";
-  //
-  // chrome.browserAction.setTitle({
-  //   title: titleText,
-  //   tabId: sender.tab.id
-  // });
 });
 
 // bug fix for dec tools problem below
@@ -131,18 +102,15 @@ function getActiveTab(callback) {
   });
 }
 
-//------------------------------
-
 function addChangeContextMenuItems() {
   // remove past menu items first
   if (chrome.contextMenus && chrome.contextMenus.removeAll) {
     chrome.contextMenus.removeAll(() => {
-      // View full calendar
       chrome.contextMenus.create({
-        title: "View NextJS __NEXTJS_DATA__",
+        title: "View NextJS __NEXT_DATA__",
         contexts: ["browser_action"],
         onclick: function() {
-          chrome.tabs.query({ active: true, currentWindow: true }, function(
+          chrome.tabs.query({ active: true, currentWindow: true,  }, function(
             tabs
           ) {
             chrome.tabs.sendMessage(
@@ -156,17 +124,6 @@ function addChangeContextMenuItems() {
           });
         }
       });
-
-      // chrome.contextMenus.create({
-      //   title: "testxxx",
-      //   contexts: ["browser_action"],
-      //   onclick: function() {}
-      // });
-      //
-      // chrome.contextMenus.create({
-      //   contexts: ["browser_action"],
-      //   type: "separator"
-      // });
     });
   }
 }

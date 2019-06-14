@@ -1,22 +1,22 @@
 {
-  "description": "..... NextJS Utils Extension .......",
+  "description": "Shows size of NextJS static data and allows for display as formatted JSON from right click on toolbar icon.",
+  "author:": "Peter Kellner, San Francisco CA",
   "manifest_version": 2,
   "name": "NextJS Utilities Extension",
-  "version": "1.0",
-  "homepage_url": "https://github.com/",
+  "version": "1.1",
+  "homepage_url": "https://github.com/pkellner/nextjs-utils-chromium-extension",
   "icons": {
     "32": "icons/icon-N-32x32.png"
   },
-  "permissions": ["activeTab", "contextMenus"],
+  "permissions": ["activeTab","contextMenus"],
   "background": {
-    "scripts": ["background.js", "lib/jquery.min.js", "nextjs1.js","viewNextData.js"]
+    "scripts": ["background.js","nextjs.js","viewNextData.js"]
   },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": [
-        "lib/jquery.min.js",
-        "nextjs1.js"
+        "nextjs.js"
       ]
     }
   ],
