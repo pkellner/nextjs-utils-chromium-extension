@@ -1,59 +1,75 @@
-// chrome.runtime.onMessage.addListener(function(message, sender) {
-// //   if (message.nextJs === true) {
-// //     chrome.browserAction.setIcon({
-// //       path: "icons/icon-N-32x32.png"
-// //     });
-// //   }
-// // });
-
 chrome.browserAction.onClicked.addListener(tab => {
-  chrome.browserAction.setTitle({ title: "Hi " + tab.id });
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    console.log(
-      `background.js:tabs[0].id:${tabs[0].id} about to send greeting hello`
-    );
-    chrome.tabs.sendMessage(tabs[0].id, { greeting: "hello" }, function(
+    chrome.tabs.sendMessage(tabs[0].id, { action: "processNextJs1" }, function(
       response
     ) {
-      chrome.browserAction.setTitle({ title: response.farewell });
-      console.log(response.farewell);
+      // for now, nothing to do here.  just sending message and return will
+      //   come frm a sendMessage in inject-script.js
     });
   });
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(`chrome.runtime.onMessage listener`);
-  console.log(
-    sender.tab
-      ? "from a content script:" + sender.tab.url
-      : "from the extension"
-  );
+chrome.runtime.onMessage.addListener(function(request, sender) {
+  const friendlySizeBytesFullString = (bytes, si) => {
+    var thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+      return bytes + " B";
+    }
+    var units = si
+      ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+      : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+    var u = -1;
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + " " + units[u];
+  };
 
-  chrome.browserAction.setTitle({
-    title: request.greeting,
+  const friendlySizeBytesFour = bytes => {
+    if (!bytes) {
+      return "---";
+    }
+    if (bytes == 0) {
+      return "0.0 B";
+    } else if (bytes < 1000) {
+      // returns 7b
+      return `${bytes}b`;
+    } else if (bytes < 1000000) {
+      // returns 70K
+      return `${(bytes / 1000).toFixed(0)}K`;
+    } else if (bytes < 10000000) {
+      // returns 2.7M
+      return `${(bytes / 1000000).toFixed(1)}M`;
+    } else if (bytes < 1000000000) {
+      // returns 27M
+      return `${(bytes / 1000000).toFixed(0)}M`;
+    } else {
+      // returns >1G
+      return ">1G";
+    }
+  };
+
+  const badgeText =
+    request && request.nextJsDataLength && request.nextJsDataLength > 10
+      ? friendlySizeBytesFour(request.nextJsDataLength)
+      : "n/a";
+
+  chrome.browserAction.setBadgeText({
+    text: badgeText,
     tabId: sender.tab.id
   });
 
-  // request has the info, just not as hello when being sent from inject-scrit adn content-script
-  //if (request.greeting == "hello") sendResponse({ farewell: "goodbye" });
+  // const titleText =
+  //   request && request.nextJsDataLength && request.nextJsDataLength > 10
+  //     ? friendlySizeBytesFullString(request.nextJsDataLength)
+  //     : "__NEXT_DATA__ Not Found so not NextJS site likely";
+  //
+  // chrome.browserAction.setTitle({
+  //   title: titleText,
+  //   tabId: sender.tab.id
+  // });
 });
-
-// clicking toolbar icon
-// chrome.browserAction.onClicked.addListener(tab => {
-//   chrome.browserAction.setTitle({ title: "Hi " + tab.id });
-//
-//   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-//     console.log(
-//       `background.js:tabs[0].id:${tabs[0].id} about to send greeting hello`
-//     );
-//     chrome.tabs.sendMessage(tabs[0].id, { greeting: "hello" }, function(
-//       response
-//     ) {
-//       chrome.browserAction.setTitle({ title: response.farewell });
-//       console.log(response.farewell);
-//     });
-//   });
-// });
 
 // bug fix for dec tools problem below
 // https://stackoverflow.com/questions/28786723/why-doesnt-chrome-tabs-query-return-the-tabs-url-when-called-using-requirejs
@@ -80,27 +96,3 @@ function getActiveTab(callback) {
     }
   });
 }
-
-const friendlySizeBytes = bytes => {
-  if (!bytes) {
-    return "---";
-  }
-  if (bytes == 0) {
-    return "0.0 B";
-  } else if (bytes < 1000) {
-    // returns 7b
-    return `${bytes}b`;
-  } else if (bytes < 1000000) {
-    // returns 70K
-    return `${(bytes / 1000).toFixed(0)}K`;
-  } else if (bytes < 10000000) {
-    // returns 2.7M
-    return `${(bytes / 1000000).toFixed(1)}M`;
-  } else if (bytes < 1000000000) {
-    // returns 27M
-    return `${(bytes / 1000000).toFixed(0)}M`;
-  } else {
-    // returns >1G
-    return ">1G";
-  }
-};
