@@ -1,3 +1,7 @@
+let nextDataFullValue = {
+  testData: "abcdefg"
+}; // global, kind of ugly, but works.
+
 addChangeContextMenuItems();
 
 chrome.browserAction.onClicked.addListener(tab => {
@@ -12,7 +16,6 @@ chrome.browserAction.onClicked.addListener(tab => {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
-
   const friendlySizeBytesFour = bytes => {
     if (!bytes) {
       return "---";
@@ -43,6 +46,11 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
         ? friendlySizeBytesFour(request.nextJsDataLength)
         : "n/a";
 
+    nextDataFullValue =
+      request && request.nextJsDataLength && request.nextJsDataLength > 10
+        ? request.nextJsData
+        : "{}";
+
     chrome.browserAction.setBadgeText({
       text: badgeText,
       tabId: sender.tab.id
@@ -57,21 +65,79 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     // always set badge Text first
     setBadgeTextFunction();
 
-    chrome.windows.create({
-        url: chrome.runtime.getURL("viewNextData.html"),
-        width: 1000,
-        height: 1000,
-        left: 100,
-        top: 100,
-        type: "popup",
-        state: "normal"
-      });
+    chrome.tabs.create(
+      { url: chrome.extension.getURL("viewNextData.html") },
+      function(tab) {
 
+        chrome.tabs.executeScript(tab.id, {
+          code: 'var config = 1;'
+        }, function() {
+          chrome.tabs.executeScript(tab.id, {file: 'content.js'});
+        });
+
+        // chrome.tabs.executeScript(
+        //   tab.id,
+        //   {
+        //     code: 'const testValue = 2001;console.log(testValue);'
+        //   },
+        //   x => {
+        //     console.log("callback");
+        //     tab.id,
+        //       { action: "SHOW_JSON_IN_TAB" },
+        //       function(response) {
+        //         // for now, nothing to do here.  just sending message and return will
+        //         //   come frm a sendMessage in inject-script.js
+        //       };
+        //   }
+        // );
+
+        // chrome.tabs.sendMessage(
+        //   tab.id,
+        //   { action: "SHOW_JSON_IN_TAB" },
+        //   function(response) {
+        //     // for now, nothing to do here.  just sending message and return will
+        //     //   come frm a sendMessage in inject-script.js
+        //   }
+        // );
+
+        // chrome.runtime.sendMessage({ action: "SHOW_JSON_IN_POPUP" }, function(
+        //   response
+        // ) {
+        //   console.log(`chrome.runtime.sendMessage:SHOW_JSON_IN_POPUP`);
+        //   // $('#result').html(response.source);
+        // });
+      }
+    );
+
+    // chrome.windows.create(
+    //   {
+    //     url: chrome.runtime.getURL("viewNextData.html"),
+    //     width: 1000,
+    //     height: 1000,
+    //     left: 100,
+    //     top: 100,
+    //     type: "popup",
+    //     state: "normal"
+    //   },
+    //   theWindow => {
+    //     // theWindow.postMessage(
+    //     //   {
+    //     //     type: "SHOW_JSON_IN_POPUP",
+    //     //     nextJsData: JSON.stringify(
+    //     //       theWindow.__NEXT_DATA__ ? theWindow.__NEXT_DATA__ : {}
+    //     //     )
+    //     //   },
+    //     //   "*"
+    //     // );
+    //     // chrome.runtime.sendMessage({ action: "SHOW_JSON_IN_POPUP" }, function(
+    //     //   response
+    //     // ) {
+    //     //   console.log(`chrome.runtime.sendMessage:SHOW_JSON_IN_POPUP`);
+    //     //   // $('#result').html(response.source);
+    //     // });
+    //   }
+    // );
   }
-
-
-
-
 
   // const friendlySizeBytesFullString = (bytes, si) => {
   //   var thresh = si ? 1000 : 1024;
@@ -137,25 +203,25 @@ function addChangeContextMenuItems() {
         title: "View NextJS __NEXTJS_DATA__",
         contexts: ["browser_action"],
         onclick: function() {
-
-          chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { action: "showNextJsData" }, function(
-              response
-            ) {
-              // for now, nothing to do here.  just sending message and return will
-              //   come frm a sendMessage in inject-script.js
-            });
+          chrome.tabs.query({ active: true, currentWindow: true }, function(
+            tabs
+          ) {
+            chrome.tabs.sendMessage(
+              tabs[0].id,
+              { action: "showNextJsData" },
+              function(response) {
+                // for now, nothing to do here.  just sending message and return will
+                //   come frm a sendMessage in inject-script.js
+              }
+            );
           });
-
-
         }
       });
 
       chrome.contextMenus.create({
         title: "testxxx",
         contexts: ["browser_action"],
-        onclick: function() {
-        }
+        onclick: function() {}
       });
 
       chrome.contextMenus.create({

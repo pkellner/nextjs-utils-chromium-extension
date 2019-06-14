@@ -1,9 +1,6 @@
-console.log("content_scripts...content-script.js");
-
 // listens for message from button click from toolbar in background.js
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   const versionScript = document.createElement("script");
-  console.log(`message:${JSON.stringify(message)}`);
   if (message.action === "updateBadgeText") {
     versionScript.src = chrome.runtime.getURL("inject-script-badgetext.js");
     versionScript.onload = function autoUnload() {

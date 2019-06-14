@@ -1,6 +1,5 @@
 {
   // Use a block statement to prevent modifying global scope
-  debugger;
   window.postMessage(
     {
       type: "BADGE_TEXT",
