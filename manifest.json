@@ -9,7 +9,7 @@
   },
   "permissions": ["activeTab", "contextMenus"],
   "background": {
-    "scripts": ["background.js", "lib/jquery.min.js", "nextjs1.js"]
+    "scripts": ["background.js", "lib/jquery.min.js", "nextjs1.js","viewNextData.js"]
   },
   "content_scripts": [
     {
