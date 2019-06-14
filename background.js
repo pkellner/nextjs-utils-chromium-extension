@@ -12,21 +12,6 @@ chrome.browserAction.onClicked.addListener(tab => {
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
-  const friendlySizeBytesFullString = (bytes, si) => {
-    var thresh = si ? 1000 : 1024;
-    if (Math.abs(bytes) < thresh) {
-      return bytes + " B";
-    }
-    var units = si
-      ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-      : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
-    var u = -1;
-    do {
-      bytes /= thresh;
-      ++u;
-    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1) + " " + units[u];
-  };
 
   const friendlySizeBytesFour = bytes => {
     if (!bytes) {
@@ -52,15 +37,46 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     }
   };
 
-  const badgeText =
-    request && request.nextJsDataLength && request.nextJsDataLength > 10
-      ? friendlySizeBytesFour(request.nextJsDataLength)
-      : "n/a";
+  const setBadgeTextFunction = () => {
+    const badgeText =
+      request && request.nextJsDataLength && request.nextJsDataLength > 10
+        ? friendlySizeBytesFour(request.nextJsDataLength)
+        : "n/a";
 
-  chrome.browserAction.setBadgeText({
-    text: badgeText,
-    tabId: sender.tab.id
-  });
+    chrome.browserAction.setBadgeText({
+      text: badgeText,
+      tabId: sender.tab.id
+    });
+  };
+
+  if (request.messageType === "BADGE_TEXT") {
+    setBadgeTextFunction();
+  }
+
+  if (request.messageType === "SHOW_DATA") {
+    // always set badge Text first
+    setBadgeTextFunction();
+  }
+
+
+
+
+
+  const friendlySizeBytesFullString = (bytes, si) => {
+    var thresh = si ? 1000 : 1024;
+    if (Math.abs(bytes) < thresh) {
+      return bytes + " B";
+    }
+    var units = si
+      ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+      : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+    var u = -1;
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1) + " " + units[u];
+  };
 
   // const titleText =
   //   request && request.nextJsDataLength && request.nextJsDataLength > 10
