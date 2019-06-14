@@ -56,27 +56,38 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   if (request.messageType === "SHOW_DATA") {
     // always set badge Text first
     setBadgeTextFunction();
+
+    chrome.windows.create({
+        url: chrome.runtime.getURL("viewNextData.html"),
+        width: 1000,
+        height: 1000,
+        left: 100,
+        top: 100,
+        type: "popup",
+        state: "normal"
+      });
+
   }
 
 
 
 
 
-  const friendlySizeBytesFullString = (bytes, si) => {
-    var thresh = si ? 1000 : 1024;
-    if (Math.abs(bytes) < thresh) {
-      return bytes + " B";
-    }
-    var units = si
-      ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-      : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
-    var u = -1;
-    do {
-      bytes /= thresh;
-      ++u;
-    } while (Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1) + " " + units[u];
-  };
+  // const friendlySizeBytesFullString = (bytes, si) => {
+  //   var thresh = si ? 1000 : 1024;
+  //   if (Math.abs(bytes) < thresh) {
+  //     return bytes + " B";
+  //   }
+  //   var units = si
+  //     ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+  //     : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+  //   var u = -1;
+  //   do {
+  //     bytes /= thresh;
+  //     ++u;
+  //   } while (Math.abs(bytes) >= thresh && u < units.length - 1);
+  //   return bytes.toFixed(1) + " " + units[u];
+  // };
 
   // const titleText =
   //   request && request.nextJsDataLength && request.nextJsDataLength > 10
@@ -144,18 +155,6 @@ function addChangeContextMenuItems() {
         title: "testxxx",
         contexts: ["browser_action"],
         onclick: function() {
-
-
-
-          chrome.windows.create({
-            url: chrome.runtime.getURL("viewNextData.html"),
-            width: 1000,
-            height: 1000,
-            left: 100,
-            top: 100,
-            type: "popup",
-            state: "normal"
-          });
         }
       });
 
