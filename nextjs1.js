@@ -1,12 +1,20 @@
 console.log("content_scripts...content-script.js");
 
 // listens for message from button click from toolbar in background.js
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   const versionScript = document.createElement("script");
-  versionScript.src = chrome.runtime.getURL("inject-script.js");
-  versionScript.onload = function autoUnload() {
-    this.remove;
-  };
+  console.log(`message:${JSON.stringify(message)}`);
+  if (message.action === "updateBadgeText") {
+    versionScript.src = chrome.runtime.getURL("inject-script.js");
+    versionScript.onload = function autoUnload() {
+      this.remove;
+    };
+  } else if (message.action === "showNextJsData") {
+    versionScript.src = chrome.runtime.getURL("inject-script.js");
+    versionScript.onload = function autoUnload() {
+      this.remove;
+    };
+  }
   document.body.appendChild(versionScript);
 });
 

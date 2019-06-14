@@ -1,6 +1,8 @@
+addChangeContextMenuItems();
+
 chrome.browserAction.onClicked.addListener(tab => {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { action: "processNextJs1" }, function(
+    chrome.tabs.sendMessage(tabs[0].id, { action: "updateBadgeText" }, function(
       response
     ) {
       // for now, nothing to do here.  just sending message and return will
@@ -95,4 +97,56 @@ function getActiveTab(callback) {
       });
     }
   });
+}
+
+//------------------------------
+
+function addChangeContextMenuItems() {
+  // remove past menu items first
+  if (chrome.contextMenus && chrome.contextMenus.removeAll) {
+    chrome.contextMenus.removeAll(() => {
+      // View full calendar
+      chrome.contextMenus.create({
+        title: "View NextJS __NEXTJS_DATA__",
+        contexts: ["browser_action"],
+        onclick: function() {
+
+          chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, { action: "showNextJsData" }, function(
+              response
+            ) {
+              // for now, nothing to do here.  just sending message and return will
+              //   come frm a sendMessage in inject-script.js
+            });
+          });
+
+
+        }
+      });
+
+      chrome.contextMenus.create({
+        title: "testxxx",
+        contexts: ["browser_action"],
+        onclick: function() {
+
+
+
+          chrome.windows.create({
+            url: chrome.runtime.getURL("viewNextData.html"),
+            width: 1000,
+            height: 1000,
+            left: 100,
+            top: 100,
+            type: "popup",
+            state: "normal"
+          });
+        }
+      });
+
+      chrome.contextMenus.create({
+        contexts: ["browser_action"],
+        type: "separator"
+      });
+    });
+  }
 }
