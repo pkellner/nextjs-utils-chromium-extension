@@ -20,7 +20,7 @@ If you want to learn more about this, I (Peter Kellner) have two courses on Plur
 
 ### Installing
 
-coming...
+https://chrome.google.com/webstore/detail/nextjs-utilities-extensio/ffcogmoganomoabikgmcmckdgojnpldo
 
 ## Authors
 
