@@ -1,7 +1,7 @@
 # nextjs-utils-chromium-extension
 
 
-A Google Extension that allows for easily viewing the size of the `windows.__NEXT_DATA__` static data that is downloaded with every server-side load from the open source <a href="https://nextjs.org/" target="_blank">NextJS framework</a> (server-side rendering create-react-app replacement built by <a href="https://zeit.co/" target="_blank">zeit.co</a>)
+A Google Extension that allows for easily viewing the size of the `windows.__NEXT_DATA__` static data that is downloaded with every server-side load from the open source <a href="https://nextjs.org/" target="_blank">NextJS framework</a> (server-side rendering create-react-app replacement built by <a href="https://vercel.com/" target="_blank">vercel.com</a>)
 
 ## Getting Started
 
